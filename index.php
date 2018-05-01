@@ -52,7 +52,7 @@ function format_price($price) {
     $price_formatted = number_format($price_formatted, 0, '', ' ');
   }
 
-  $price_formatted = $price_formatted . ' ₽';
+  $price_formatted = $price_formatted . ' <b class="rub">р</b>';
 
   return $price_formatted;
 }
