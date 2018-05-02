@@ -49,6 +49,9 @@ $goods = [
   ]
 ];
 
+date_default_timezone_set('Europe/Moscow');
+
+
 $page_content = renderTemplate('templates/index.php', ['goods' => $goods]);
 $layout_content = renderTemplate('templates/layout.php', ['site_title' => $site_title, 'content' => $page_content, 'is_auth' => $is_auth, 'user_name' => $user_name, 'user_avatar' => $user_avatar, 'categories' => $categories]);
 
