@@ -15,6 +15,7 @@ function format_price($price) {
 
 function renderTemplate($templatePath, $templateData) {
 	$content = '';
+	extract($templateData);
 
 	if (file_exists($templatePath)) {
 		ob_start();

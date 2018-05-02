@@ -27,7 +27,7 @@
     <h2>Открытые лоты</h2>
   </div>
   <ul class="lots__list">
-  <? foreach ($templateData['goods'] as $key => $good) { ?>
+  <? foreach ($goods as $key => $good) { ?>
     <li class="lots__item lot">
       <div class="lot__image">
         <img src="<?= $good['url']; ?>" width="350" height="260" alt="<?= $good['name']; ?>">
