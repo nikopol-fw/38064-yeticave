@@ -1,4 +1,16 @@
 <?php
+function time_lot() {
+	$time_tommorow = strtotime('tomorrow');
+	$time_lot = $time_tommorow - time();
+
+	$time_hours = floor($time_lot / 3600);
+	$time_minutes = floor(($time_lot % 3600) / 60);
+
+	$get_time = $time_hours . ':' . $time_minutes;
+
+	return date('h:i', strtotime($get_time));
+}
+
 function format_price($price) {
 
   $price = htmlspecialchars($price);
