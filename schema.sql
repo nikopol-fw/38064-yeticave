@@ -34,7 +34,10 @@ CREATE TABLE IF NOT EXISTS lots (
 	author INT UNSIGNED NOT NULL,
 	winner INT UNSIGNED NOT NULL,
 	category TINYINT UNSIGNED NOT NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (author) REFERENCES users(id),
+	FOREIGN KEY (winner) REFERENCES users(id),
+	FOREIGN KEY (category) REFERENCES categories(id)
 );
 
 CREATE TABLE IF NOT EXISTS bids (
@@ -44,12 +47,14 @@ CREATE TABLE IF NOT EXISTS bids (
 	
 	user INT UNSIGNED NOT NULL,
 	lot BIGINT UNSIGNED NOT NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (user) REFERENCES users(id),
+	FOREIGN KEY (lot) REFERENCES bids(id)
 );
 
-CREATE UNIQUE user_email ON users(email);
-CREATE UNIQUE user_name ON users(name);
-CREATE UNIQUE category_name ON categories(name);
+CREATE UNIQUE INDEX user_email ON users(email);
+CREATE UNIQUE INDEX user_name ON users(name);
+CREATE UNIQUE INDEX category_name ON categories(name);
 
 CREATE INDEX lots_category ON lots(category);
 CREATE INDEX bids_user ON bids(user);
