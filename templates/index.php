@@ -30,7 +30,7 @@
   <? foreach ($goods as $key => $good) { ?>
     <li class="lots__item lot">
       <div class="lot__image">
-        <img src="<?= $good['url']; ?>" width="350" height="260" alt="<?= $good['name']; ?>">
+        <img src="<?= $good['picture']; ?>" width="350" height="260" alt="<?= $good['name']; ?>">
       </div>
       <div class="lot__info">
         <span class="lot__category"><?= htmlspecialchars($good['category']); ?></span>
