@@ -1,59 +1,63 @@
 <?php
-require_once 'functions.php';
+require_once "functions.php";
 
-$site_title = 'YetiCave';
+$site_title = "YetiCave";
 
 $is_auth = (bool) rand(0, 1);
 
 $user_name = 'Константин';
 $user_avatar = 'img/user.jpg';
 
-$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
-
-$goods = [
-  [
-    'name' => '2014 Rossignol District Snowboard',
-    'category' => 'Доски и лыжи',
-    'price' => '10999',
-    'url' => 'img/lot-1.jpg',
-  ],
-  [
-    'name' => 'DC Ply Mens 2016/2017 Snowboard',
-    'category' => 'Доски и лыжи',
-    'price' => '159999',
-    'url' => 'img/lot-2.jpg',
-  ],
-  [
-    'name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-    'category' => 'Крепления',
-    'price' => '8000',
-    'url' => 'img/lot-3.jpg',
-  ],
-  [
-    'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-    'category' => 'Ботинки',
-    'price' => '10999',
-    'url' => 'img/lot-4.jpg',
-  ],
-  [
-    'name' => 'Куртка для сноуборда DC Mutiny Charocal',
-    'category' => 'Одежда',
-    'price' => '7500',
-    'url' => 'img/lot-5.jpg',
-  ],
-  [
-    'name' => 'Маска Oakley Canopy',
-    'category' => 'Разное',
-    'price' => '5400',
-    'url' => 'img/lot-6.jpg',
-  ]
-];
-
-date_default_timezone_set('Europe/Moscow');
+$categories = [];
 
 
-$page_content = renderTemplate('templates/index.php', ['goods' => $goods]);
-$layout_content = renderTemplate('templates/layout.php', ['site_title' => $site_title, 'content' => $page_content, 'is_auth' => $is_auth, 'user_name' => $user_name, 'user_avatar' => $user_avatar, 'categories' => $categories]);
+date_default_timezone_set("Europe/Moscow");
+
+$db_host = "localhost";
+$db_user = "root";
+$db_password = "";
+$db_name = "yeti_cave";
+
+$db_conf = mysqli_connect($db_host, $db_user, $db_password, $db_name);
+
+if (!$db_conf) {
+  $error = "Ошибка подключения: " . mysqli_connect_error();
+  $page_content = "<p>Ошибка MySQL: " . $error. "</p>";
+} else {
+  mysqli_set_charset($db_conf, "utf8");
+
+ $sql = "SELECT DISTINCT `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name`, `creation_date`"
+        . "FROM `lots`"
+        . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot`"
+        . "INNER JOIN `categories` ON `lots`.`category` = `categories`.`id`"
+        . "WHERE CURRENT_TIMESTAMP() < `end_date`"
+        . "GROUP BY `lots`.`name`, `start_price`, `picture`, `creation_date`, `category`"
+        . "ORDER BY `creation_date` DESC;";
+
+  $result = mysqli_query($db_conf, $sql);
+
+  if (!$result) {
+    $error = mysqli_error($db_conf);
+    $page_content = "<p>Ошибка MySQL: " . $error. "</p>";
+  } else {
+    $goods = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $page_content = renderTemplate("templates/index.php", ['goods' => $goods]);
+  }
+
+  $sql = "SELECT `name` FROM `categories`;";
+
+  $result = mysqli_query($db_conf, $sql);
+
+  if (!$result) {
+    $error = mysqli_error($db_conf);
+    $categories = [['name' => '<p>Ошибка MySQL: ' . $error . '</p>']];
+  } else {
+    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  }
+}
+
+
+$layout_content = renderTemplate("templates/layout.php", ['site_title' => $site_title, 'content' => $page_content, 'is_auth' => $is_auth, 'user_name' => $user_name, 'user_avatar' => $user_avatar, 'categories' => $categories]);
 
 print($layout_content);
 
