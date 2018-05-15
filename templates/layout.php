@@ -21,14 +21,14 @@
     <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
 
     <nav class="user-menu">
-    <? if ($is_auth == true) { ?>
+    <?php if ($is_auth == true): ?>
       <div class="user-menu__image">
         <img src="<?= $user_avatar; ?>" width="40" height="40" alt="Пользователь">
       </div>
       <div class="user-menu__logged">
         <p><?= htmlspecialchars($user_name); ?></p>
       </div>
-    <? } else { ?>
+    <?php else: ?>
       <ul class="user-menu__list">
         <li class="user-menu__item">
           <a href="#">Регистрация</a>
@@ -37,7 +37,7 @@
           <a href="#">Вход</a>
         </li>
       </ul>
-    <? } ?>
+    <?php endif; ?>
     </nav>
   </div>
 </header>
@@ -47,11 +47,11 @@
 <footer class="main-footer">
   <nav class="nav">
     <ul class="nav__list container">
-    <? foreach ($categories as $key => $category) { ?>
+    <?php foreach ($categories as $key => $category): ?>
       <li class="nav__item">
         <a href="all-lots.html"><?= $category['name']; ?></a>
       </li>
-    <? } ?>
+    <? endforeach; ?>
     </ul>
   </nav>
   <div class="main-footer__bottom container">
