@@ -65,7 +65,7 @@ WHERE CURRENT_TIMESTAMP() < `end_date`
 GROUP BY `lots`.`name`, `start_price`, `picture`, `creation_date`, `category`
 ORDER BY `creation_date` DESC;
 
-SELECT `lots`.`id`, `lots`.`name`, `lots`.`description`, `lots`.`picture`, `lots`.`creation_date`, `lots`.`end_date`, `lots`.`start_price`, `lots`.`bet_step`, `lots`.`author`, `lots`.`winner`, `categories`.`name`
+SELECT `lots`.`id`, `lots`.`name`, `lots`.`description`, `lots`.`picture`, `lots`.`creation_date`, `lots`.`end_date`, `lots`.`start_price`, `lots`.`bet_step`, `lots`.`author`, `lots`.`winner`, `categories`.`name` AS `category_name`
 FROM `lots`
 INNER JOIN `categories` ON `lots`.`category` = `categories`.`id`
 WHERE `lots`.`id` = 1;
@@ -78,4 +78,4 @@ SELECT `bids`.`date`, `bids`.`amount`, `bids`.`user`
 FROM `bids`
 WHERE `bids`.`lot` = 3
 ORDER BY `bids`.`date` DESC
-LIMIT 5;
+LIMIT 10;

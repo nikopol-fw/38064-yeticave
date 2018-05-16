@@ -1097,6 +1097,7 @@ input:invalid .form__error{
 
 .history__name {
   font-weight: 700;
+  word-wrap: break-word;
 }
 
 /* Мои ставки */

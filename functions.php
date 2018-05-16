@@ -12,7 +12,6 @@ function time_lot() {
 }
 
 function format_price($price) {
-
   $price = htmlspecialchars($price);
   $price_formatted = ceil($price);
 
@@ -23,6 +22,29 @@ function format_price($price) {
   $price_formatted = $price_formatted . " <b class=\"rub\">р</b>";
 
   return $price_formatted;
+}
+
+function format_price__without_r($price) {
+  $price = htmlspecialchars($price);
+  $price_formatted = ceil($price);
+
+  if ($price_formatted > 999) {
+    $price_formatted = number_format($price_formatted, 0, "", " ");
+  }
+
+  return $price_formatted;
+}
+
+function min_bet($bids_count, $price, $bet_step) {
+	$price = htmlspecialchars($price);
+	$min_price = $price;
+
+	if ($bids_count > 0) {
+		$bet_step = htmlspecialchars($bet_step);
+		$min_price = ceil($price) + ceil($bet_step);
+	}
+
+	return $min_price;
 }
 
 function renderTemplate($templatePath, $templateData) {
