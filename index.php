@@ -15,7 +15,7 @@ date_default_timezone_set("Europe/Moscow");
 
 $db_host = "localhost";
 $db_user = "root";
-$db_password = "9562_9562";
+$db_password = "";
 $db_name = "yeti_cave";
 
 $db_conf = mysqli_connect($db_host, $db_user, $db_password, $db_name);
@@ -26,12 +26,12 @@ if (!$db_conf) {
 } else {
   mysqli_set_charset($db_conf, "utf8");
 
-  $sql = "SELECT DISTINCT `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name`, `creation_date` "
+  $sql = "SELECT DISTINCT `lots`.`id`, `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name` AS `category_name`, `creation_date` "
         . "FROM `lots` "
         . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
         . "INNER JOIN `categories` ON `lots`.`category` = `categories`.`id` "
         . "WHERE CURRENT_TIMESTAMP() < `end_date` "
-        . "GROUP BY `lots`.`name`, `start_price`, `picture`, `creation_date`, `category` "
+        . "GROUP BY `lots`.`id`, `lots`.`name`, `start_price`, `picture`, `creation_date`, `category` "
         . "ORDER BY `creation_date` DESC;";
 
   $result = mysqli_query($db_conf, $sql);

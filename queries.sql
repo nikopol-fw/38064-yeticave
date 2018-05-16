@@ -57,7 +57,7 @@ VALUES ('2018-05-18 23:39:15', 9000, 1, 3);
 
 SELECT `name` FROM `categories`;
 
-SELECT DISTINCT `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name`, `creation_date`
+SELECT DISTINCT `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name` AS `category_name`, `creation_date`
 FROM `lots` 
 LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot`
 INNER JOIN `categories` ON `lots`.`category` = `categories`.`id`

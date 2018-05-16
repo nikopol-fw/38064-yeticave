@@ -33,8 +33,8 @@
         <img src="<?= $good['picture']; ?>" width="350" height="260" alt="<?= $good['name']; ?>">
       </div>
       <div class="lot__info">
-        <span class="lot__category"><?= htmlspecialchars($good['category']); ?></span>
-        <h3 class="lot__title"><a class="text-link" href="lot.html"><?= htmlspecialchars($good['name']); ?></a></h3>
+        <span class="lot__category"><?= htmlspecialchars($good['category_name']); ?></span>
+        <h3 class="lot__title"><a class="text-link" href="lot.php?id=<?= $good['id']; ?>"><?= htmlspecialchars($good['name']); ?></a></h3>
         <div class="lot__state">
           <div class="lot__rate">
             <span class="lot__amount">Стартовая цена</span>
