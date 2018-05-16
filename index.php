@@ -22,23 +22,23 @@ $db_conf = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 
 if (!$db_conf) {
   $error = "Ошибка подключения: " . mysqli_connect_error();
-  $page_content = "<p>Ошибка MySQL: " . $error. "</p>";
+  $page_content = "<p>Ошибка MySQL: " . $error . "</p>";
 } else {
   mysqli_set_charset($db_conf, "utf8");
 
- $sql = "SELECT DISTINCT `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name`, `creation_date`"
-        . "FROM `lots`"
-        . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot`"
-        . "INNER JOIN `categories` ON `lots`.`category` = `categories`.`id`"
-        . "WHERE CURRENT_TIMESTAMP() < `end_date`"
-        . "GROUP BY `lots`.`name`, `start_price`, `picture`, `creation_date`, `category`"
+  $sql = "SELECT DISTINCT `lots`.`id`, `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name` AS `category_name`, `creation_date` "
+        . "FROM `lots` "
+        . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
+        . "INNER JOIN `categories` ON `lots`.`category` = `categories`.`id` "
+        . "WHERE CURRENT_TIMESTAMP() < `end_date` "
+        . "GROUP BY `lots`.`id`, `lots`.`name`, `start_price`, `picture`, `creation_date`, `category` "
         . "ORDER BY `creation_date` DESC;";
 
   $result = mysqli_query($db_conf, $sql);
 
   if (!$result) {
     $error = mysqli_error($db_conf);
-    $page_content = "<p>Ошибка MySQL: " . $error. "</p>";
+    $page_content = "<p>Ошибка MySQL: " . $error . "</p>";
   } else {
     $goods = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $page_content = renderTemplate("templates/index.php", ['goods' => $goods]);
