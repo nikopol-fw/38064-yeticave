@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>DC Ply Mens 2016/2017 Snowboard</title>
+  <title><?= $page_title; ?></title>
   <link href="css/normalize.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
@@ -56,9 +56,7 @@
     </ul>
   </nav>
   
-  <section class="lot-item container">
-    <?= $content; ?>
-  </section>
+  <?= $content; ?>
 </main>
 
 <footer class="main-footer">
@@ -121,5 +119,6 @@
   </div>
 </footer>
 
+<script src="js/script.js"></script>
 </body>
 </html>

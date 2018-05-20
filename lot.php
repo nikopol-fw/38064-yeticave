@@ -6,22 +6,16 @@ $is_auth = (bool) rand(0, 1);
 $user_name = 'Константин';
 $user_avatar = 'img/user.jpg';
 
-$categories = [];
-$bids = [];
-$bids_count = '0';
-$lot_id = '0';
-
 date_default_timezone_set("Europe/Moscow");
 
 $db_host = "localhost";
 $db_user = "root";
-$db_password = "";
+$db_password = "9562_9562";
 $db_name = "yeti_cave";
 
 
 if (!isset($_GET['id'])) {
-  header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
-
+  http_response_code(404);
   $page_content = renderTemplate("templates/lot_404.php", []);
 } else {
   $lot_id = intval($_GET['id']);
@@ -47,9 +41,8 @@ if (!isset($_GET['id'])) {
       $error = mysqli_error($db_conf);
       $page_content = "<p>Ошибка MySQL: " . $error . "</p>";
     } elseif (!mysqli_num_rows($result)) {
-
+      http_response_code(404);
       $page_content = renderTemplate("templates/lot_404.php", []);
-
     } else {
       $lot = mysqli_fetch_assoc($result);
 
