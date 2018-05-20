@@ -28,22 +28,22 @@ VALUES ('2111-01-27 07:50:07', 'future-man@global.web', 'anonym_from_future', '1
 
 
 INSERT INTO `lots` (`name`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`)
-VALUES ('2014 Rossignol District Snowboard', 'img/lot-1.jpg', '2018-04-30 21:11:05', '2018-05-25 23:59:59', 10999, 500, 1, 1);
+VALUES ('2014 Rossignol District Snowboard', 'lot-1.jpg', '2018-04-30 21:11:05', '2018-05-25 23:59:59', 10999, 500, 1, 1);
 
 INSERT INTO `lots` (`name`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`)
-VALUES ('DC Ply Mens 2016/2017 Snowboard', 'img/lot-2.jpg', '2018-04-30 11:23:45', '2018-05-26 23:59:59', 159999, 1000, 2, 1);
+VALUES ('DC Ply Mens 2016/2017 Snowboard', 'lot-2.jpg', '2018-04-30 11:23:45', '2018-05-26 23:59:59', 159999, 1000, 2, 1);
 
 INSERT INTO `lots` (`name`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`)
-VALUES ('Крепления Union Contact Pro 2015 года размер L/XL', 'img/lot-3.jpg', '2018-05-01 09:43:25', '2018-05-28 23:59:59', 8000, 250, 1, 2);
+VALUES ('Крепления Union Contact Pro 2015 года размер L/XL', 'lot-3.jpg', '2018-05-01 09:43:25', '2018-05-28 23:59:59', 8000, 250, 1, 2);
 
 INSERT INTO `lots` (`name`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`)
-VALUES ('Ботинки для сноуборда DC Mutiny Charocal', 'img/lot-4.jpg', '2018-05-03 15:41:13', '2018-05-27 23:59:59', 10999, 500, 3, 3);
+VALUES ('Ботинки для сноуборда DC Mutiny Charocal', 'lot-4.jpg', '2018-05-03 15:41:13', '2018-05-27 23:59:59', 10999, 500, 3, 3);
 
 INSERT INTO `lots` (`name`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`)
-VALUES ('Куртка для сноуборда DC Mutiny Charocal', 'img/lot-5.jpg', '2018-04-25 19:37:39', '2018-05-30 23:59:59', 7500, 200, 2, 4);
+VALUES ('Куртка для сноуборда DC Mutiny Charocal', 'lot-5.jpg', '2018-04-25 19:37:39', '2018-05-30 23:59:59', 7500, 200, 2, 4);
 
 INSERT INTO `lots` (`name`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`)
-VALUES ('Маска Oakley Canopy', 'img/lot-6.jpg', '2018-05-07 20:41:09', '2018-05-25 23:59:59', 5400, 150, 1, 6);
+VALUES ('Маска Oakley Canopy', 'lot-6.jpg', '2018-05-07 20:41:09', '2018-05-25 23:59:59', 5400, 150, 1, 6);
 
 INSERT INTO `bids` (`date`, `amount`, `user`, `lot`)
 VALUES ('2018-05-01 20:32:19', 11499, 2, 1);
