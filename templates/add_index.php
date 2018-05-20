@@ -11,7 +11,7 @@
     $value = isset($lot['title']) ? htmlspecialchars($lot['title']) : ""; ?>
     <div class="form__item<?= $classname; ?>">
       <label for="lot-name">Наименование</label>
-      <input id="lot-name" type="text" name="lot[title]" placeholder="Введите наименование лота" value="<?= $value; ?>" required>
+      <input id="lot-name" type="text" name="lot[title]" placeholder="Введите наименование лота" value="<?= $value; ?>">
       <?= $error; ?>
     </div>
     <?php $classname = "";
@@ -47,7 +47,7 @@
   $value = isset($lot['description']) ? htmlspecialchars($lot['description']) : ""; ?>
   <div class="form__item form__item--wide<?= $classname; ?>">
     <label for="message">Описание</label>
-    <textarea id="message" name="lot[description]" placeholder="Напишите описание лота" required><?= $value; ?></textarea>
+    <textarea id="message" name="lot[description]" placeholder="Напишите описание лота"><?= $value; ?></textarea>
     <?= $error; ?>
   </div>
   <?php
@@ -67,7 +67,7 @@
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" name="picture" value="" required>
+      <input class="visually-hidden" type="file" id="photo2" name="picture" value="">
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
@@ -84,7 +84,7 @@
     $value = isset($lot['start_price']) ? htmlspecialchars($lot['start_price']) : ""; ?>
     <div class="form__item form__item--small<?= $classname; ?>">
       <label for="lot-rate">Начальная цена</label>
-      <input id="lot-rate" type="text" name="lot[start_price]" placeholder="0" value="<?= $value ?>" required>
+      <input id="lot-rate" type="text" name="lot[start_price]" placeholder="0" value="<?= $value ?>">
       <?= $error; ?>
     </div>
     <?php $classname = "";
@@ -96,7 +96,7 @@
     $value = isset($lot['bet_step']) ? htmlspecialchars($lot['bet_step']) : ""; ?>
     <div class="form__item form__item--small<?= $classname; ?>">
       <label for="lot-step">Шаг ставки</label>
-      <input id="lot-step" type="text" name="lot[bet_step]" placeholder="0" value="<?= $value; ?>" required>
+      <input id="lot-step" type="text" name="lot[bet_step]" placeholder="0" value="<?= $value; ?>">
       <?= $error; ?>
     </div>
     <?php $classname = "";
@@ -108,7 +108,7 @@
     $value = isset($lot['end_date']) ? htmlspecialchars($lot['end_date']) : ""; ?>
     <div class="form__item<?= $classname; ?>">
       <label for="lot-date">Дата окончания торгов</label>
-      <input class="form__input-date" id="lot-date" type="date" name="lot[end_date]" value="<?= $value; ?>" required>
+      <input class="form__input-date" id="lot-date" type="date" name="lot[end_date]" value="<?= $value; ?>">
       <?= $error; ?>
     </div>
   </div>

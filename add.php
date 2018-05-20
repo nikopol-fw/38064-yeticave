@@ -8,11 +8,13 @@ $is_auth = (bool) rand(0, 1);
 $user_name = 'Константин';
 $user_avatar = 'img/user.jpg';
 
+$errors = [];
+
 date_default_timezone_set("Europe/Moscow");
 
 $db_host = "localhost";
 $db_user = "root";
-$db_password = "";
+$db_password = "9562_9562";
 $db_name = "yeti_cave";
 
 $db_conf = mysqli_connect($db_host, $db_user, $db_password, $db_name);
@@ -32,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $lot = $_POST['lot'];
 
   $required = ['title', 'category', 'description', 'start_price', 'bet_step', 'end_date'];
-  $errors = [];
 
   foreach ($required as $field) {
     if (empty($_POST['lot'][$field])) {
