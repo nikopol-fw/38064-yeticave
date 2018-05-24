@@ -4,7 +4,7 @@
   <div class="form__container-two">
     <?php $classname = "";
     $error = "";
-    if (isset($errors['title'])) :
+    if (isset($errors['title'])):
       $classname = " form__item--invalid";
       $error = "<span class=\"form__error\">" . $errors['title'] . "</span>";
     endif;

@@ -10,6 +10,7 @@ $user_avatar = 'img/user.jpg';
 
 $errors = [];
 
+
 date_default_timezone_set("Europe/Moscow");
 
 $db_host = "localhost";
@@ -148,12 +149,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $uniq_name = bin2hex(random_bytes(16)) . "." . $extension;
 
     if (move_uploaded_file($tmp_name, $upload_path . $uniq_name)) {
-      $sql = "INSERT INTO `lots` (`name`, `description`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`)"
+      $sql = "INSERT INTO `lots` (`name`, `description`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`) "
           . "VALUES (?, ?, ?, NOW(), ?, ?, ?, 1, ?)";
 
       $stmt = mysqli_prepare($db_conf, $sql);
       mysqli_stmt_bind_param($stmt, 'ssssiii', htmlspecialchars($lot['title']), htmlspecialchars($lot['description']), $uniq_name, htmlspecialchars($lot['end_date']), htmlspecialchars($lot['start_price']), htmlspecialchars($lot['bet_step']), htmlspecialchars($lot['category']));
-      $result =  mysqli_stmt_execute($stmt);
+      $result = mysqli_stmt_execute($stmt);
 
       if (!$result) {
         $error = mysqli_error($db_conf);
@@ -183,7 +184,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $layout_content = renderTemplate("templates/add_layout.php", ['page_title' => $page_title, 'content' => $page_content]);
-
 print($layout_content);
 
 ?>
