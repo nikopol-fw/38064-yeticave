@@ -1,7 +1,7 @@
 <?php
 require_once "functions.php";
 
-$site_title = "YetiCave";
+$page_title = "YetiCave";
 
 $is_auth = (bool) rand(0, 1);
 
@@ -57,7 +57,7 @@ if (!$db_conf) {
 }
 
 
-$layout_content = renderTemplate("templates/layout.php", ['site_title' => $site_title, 'content' => $page_content, 'is_auth' => $is_auth, 'user_name' => $user_name, 'user_avatar' => $user_avatar, 'categories' => $categories]);
+$layout_content = renderTemplate("templates/layout.php", ['page_title' => $page_title, 'content' => $page_content, 'is_auth' => $is_auth, 'user_name' => $user_name, 'user_avatar' => $user_avatar, 'categories' => $categories]);
 
 print($layout_content);
 

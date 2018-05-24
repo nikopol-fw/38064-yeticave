@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`registration_date` DATETIME NOT NULL,
 	`email` VARCHAR(128) NOT NULL,
 	`name` VARCHAR(128) NOT NULL,
-	`password` VARCHAR(64) NOT NULL,
+	`password` VARCHAR(255) NOT NULL,
 	`avatar` VARCHAR(512),
 	`contacts` VARCHAR(512),
 	PRIMARY KEY (`id`)

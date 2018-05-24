@@ -60,4 +60,24 @@ function renderTemplate($templatePath, $templateData) {
 
 	return $content;
 }
+
+function format_form_item ($error, $value = null) {
+	$format = [
+		'classname' => "",
+		'error' => "",
+		'value' => ""
+	];
+
+	if (isset($error)) {
+		$format['classname'] = " form__item--invalid";
+		$format['error'] = "<span class=\"form__error\">" . $error . "</span>";
+	}
+
+	if (isset($value)) {
+		$format['value'] = $value;
+	}
+
+	return $format;
+}
+
 ?>
