@@ -62,6 +62,8 @@ function renderTemplate($templatePath, $templateData) {
 }
 
 function format_form_item ($error, $value = null) {
+	$value = htmlspecialchars($value);
+
 	$format = [
 		'classname' => "",
 		'error' => "",

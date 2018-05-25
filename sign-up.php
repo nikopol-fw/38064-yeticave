@@ -157,6 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (mysqli_stmt_execute($stmt)) {
       header("Location: /");
+      exit();
     } else {
       $error = mysqli_error($db_conf);
       $page_content = "<p>Регистрация неудалась. Ошибка MySQL: " . $error . "</p>";

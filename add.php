@@ -1,5 +1,20 @@
 <?php
 require_once "functions.php";
+require_once "db_config.php";
+
+session_start();
+
+$is_auth = false;
+$user_name = "";
+$user_avatar = "";
+
+if (!isset($_SESSION['user'])) {
+  http_response_code(403);
+} else {
+  $is_auth = true;
+  $user_name = $_SESSION['user']['name'];
+  $user_avatar = $_SESSION['user']['avatar'] ? $_SESSION['user']['avatar'] : "img/user_default.png";
+}
 
 $page_title = "Добавление лота";
 
@@ -15,7 +30,7 @@ date_default_timezone_set("Europe/Moscow");
 
 $db_host = "localhost";
 $db_user = "root";
-$db_password = "";
+$db_password = "9562_9562";
 $db_name = "yeti_cave";
 
 $db_conf = mysqli_connect($db_host, $db_user, $db_password, $db_name);

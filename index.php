@@ -1,22 +1,24 @@
 <?php
 require_once "functions.php";
+require_once "db_config.php";
+
+session_start();
+
+$is_auth = false;
+$user_name = "";
+$user_avatar = "";
+
+if (isset($_SESSION['user'])) {
+  $is_auth = true;
+  $user_name = $_SESSION['user']['name'];
+  $user_avatar = $_SESSION['user']['avatar'] ? $_SESSION['user']['avatar'] : "img/user_default.png";
+}
 
 $page_title = "YetiCave";
-
-$is_auth = (bool) rand(0, 1);
-
-$user_name = 'Константин';
-$user_avatar = 'img/user.jpg';
-
 $categories = [];
-
 
 date_default_timezone_set("Europe/Moscow");
 
-$db_host = "localhost";
-$db_user = "root";
-$db_password = "";
-$db_name = "yeti_cave";
 
 $db_conf = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 
@@ -57,7 +59,7 @@ if (!$db_conf) {
 }
 
 
-$layout_content = renderTemplate("templates/layout.php", ['page_title' => $page_title, 'content' => $page_content, 'is_auth' => $is_auth, 'user_name' => $user_name, 'user_avatar' => $user_avatar, 'categories' => $categories]);
+$layout_content = renderTemplate("templates/layout.php", ['page_title' => $page_title, 'is_auth' => $is_auth, 'user_name' => $user_name, 'user_avatar' => $user_avatar, 'categories' => $categories, 'content' => $page_content]);
 
 print($layout_content);
 
