@@ -11,7 +11,7 @@ date_default_timezone_set("Europe/Moscow");
 
 $db_host = "localhost";
 $db_user = "root";
-$db_password = "9562_9562";
+$db_password = "";
 $db_name = "yeti_cave";
 
 $db_conf = mysqli_connect($db_host, $db_user, $db_password, $db_name);
