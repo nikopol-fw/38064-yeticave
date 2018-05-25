@@ -11,7 +11,7 @@ date_default_timezone_set("Europe/Moscow");
 
 $db_host = "localhost";
 $db_user = "root";
-$db_password = "";
+$db_password = "9562_9562";
 $db_name = "yeti_cave";
 
 $db_conf = mysqli_connect($db_host, $db_user, $db_password, $db_name);
@@ -157,6 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (mysqli_stmt_execute($stmt)) {
       header("Location: /");
+      exit();
     } else {
       $error = mysqli_error($db_conf);
       $page_content = "<p>Регистрация неудалась. Ошибка MySQL: " . $error . "</p>";
