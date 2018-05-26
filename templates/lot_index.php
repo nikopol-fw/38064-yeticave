@@ -23,10 +23,12 @@
             Мин. ставка <span><?= format_price(min_bet($bids_count, $lot['price'], $lot['bet_step'])); ?></span>
           </div>
         </div>
-        <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
-          <p class="lot-item__form-item">
+        <form class="lot-item__form" action="" method="post">
+          <?php $form_item = formatFormItem($errors['bet']); ?>
+          <p class="lot-item__form-item<?= $form_item['classname']; ?>">
             <label for="cost">Ваша ставка</label>
-            <input id="cost" type="number" name="cost" placeholder="<?= format_price__without_r(min_bet($bids_count, $lot['price'], $lot['bet_step'])); ?>">
+            <input id="cost" type="number" name="cost" placeholder="<?= format_price__without_r(min_bet($bids_count, $lot['price'], $lot['bet_step'])); ?>" value="<?= $form_item['value']; ?>">
+            <?= $form_item['error']; ?>
           </p>
           <button type="submit" class="button">Сделать ставку</button>
         </form>

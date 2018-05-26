@@ -11,7 +11,7 @@
 <header class="main-header">
   <div class="main-header__container container">
     <h1 class="visually-hidden">YetiCave</h1>
-    <a class="main-header__logo" href="/">
+    <a class="main-header__logo"<?php if (!$is_mainpage): ?>href="/"<?php endif; ?>>
       <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
     </a>
     <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
@@ -43,7 +43,7 @@
   </div>
 </header>
 
-<?php if ($_SERVER['REQUEST_URI'] == "/" || $_SERVER['REQUEST_URI'] == "/index.php"): ?>
+<?php if ($is_mainpage): ?>
   <main class="container"><?= $content; ?></main>
 <?php else: ?>
   <main>
