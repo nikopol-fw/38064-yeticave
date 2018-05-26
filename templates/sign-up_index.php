@@ -1,31 +1,31 @@
 <?php $classname = count($errors) ? " form--invalid" : ""; ?>
 <form class="form container<?= $classname; ?>" action="sign-up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
   <h2>Регистрация нового аккаунта</h2>
-  <?php $form_item = format_form_item($errors['email'], $user['email']); ?>
+  <?php $form_item = formatFormItem($errors['email'], $user['email']); ?>
   <div class="form__item<?= $form_item['classname']; ?>"> <!-- form__item--invalid -->
     <label for="email">E-mail*</label>
     <input id="email" type="text" name="user[email]" placeholder="Введите e-mail" value="<?= $form_item['value']; ?>">
     <?= $form_item['error']; ?>
   </div>
-  <?php $form_item = format_form_item($errors['password'], $user['password']); ?>
+  <?php $form_item = formatFormItem($errors['password'], $user['password']); ?>
   <div class="form__item<?= $form_item['classname']; ?>">
     <label for="password">Пароль*</label>
     <input id="password" type="text" name="user[password]" placeholder="Введите пароль" >
     <?= $form_item['error']; ?>
   </div>
-  <?php $form_item = format_form_item($errors['name'], $user['name']); ?>
+  <?php $form_item = formatFormItem($errors['name'], $user['name']); ?>
   <div class="form__item<?= $form_item['classname']; ?>">
     <label for="name">Имя*</label>
     <input id="name" type="text" name="user[name]" placeholder="Введите имя" value="<?= $form_item['value']; ?>">
     <?= $form_item['error']; ?>
   </div>
-  <?php $form_item = format_form_item($errors['message'], $user['message']); ?>
+  <?php $form_item = formatFormItem($errors['message'], $user['message']); ?>
   <div class="form__item<?= $form_item['classname']; ?>">
     <label for="message">Контактные данные*</label>
     <textarea id="message" name="user[message]" placeholder="Напишите как с вами связаться" ><?= $form_item['value']; ?></textarea>
     <?= $form_item['error']; ?>
   </div>
-  <?php $form_item = format_form_item($errors['picture']); ?>
+  <?php $form_item = formatFormItem($errors['picture']); ?>
   <div class="form__item form__item--file form__item--last<?= $form_item['classname']; ?>">
     <label>Аватар</label>
     <div class="preview">
