@@ -164,8 +164,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $uniq_name = bin2hex(random_bytes(16)) . '.' . $extension;
 
     if (move_uploaded_file($tmp_name, $upload_path . $uniq_name)) {
+      $author_id = $_SESSION['user']['id'];
+
       $sql = "INSERT INTO `lots` (`name`, `description`, `picture`, `creation_date`, `end_date`, `start_price`, `bet_step`, `author`, `category`) "
-          . "VALUES (?, ?, ?, NOW(), ?, ?, ?, 1, ?);";
+          . "VALUES (?, ?, ?, NOW(), ?, ?, ?, '$author_id', ?);";
 
       $stmt = mysqli_prepare($db_conf, $sql);
       mysqli_stmt_bind_param($stmt, 'ssssiii', htmlspecialchars($lot['title']), htmlspecialchars($lot['description']), $uniq_name, htmlspecialchars($lot['end_date']), htmlspecialchars($lot['start_price']), htmlspecialchars($lot['bet_step']), htmlspecialchars($lot['category']));

@@ -12,7 +12,7 @@
     <?php if ($is_auth): ?>
       <div class="lot-item__state">
         <div class="lot-item__timer timer">
-          10:54:12
+          <?= $end_time; ?>
         </div>
         <div class="lot-item__cost-state">
           <div class="lot-item__rate">

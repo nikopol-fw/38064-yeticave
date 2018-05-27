@@ -193,11 +193,14 @@ if (!$result) {
     $bids = mysqli_fetch_all($result, MYSQLI_ASSOC);
   }
 
+  $end_time = timeLot($lot['end_date']);
+
   $page_content = renderTemplate('templates/lot_index.php', [
     'lot' => $lot,
     'bids' => $bids,
     'bids_count' => $bids_count,
     'is_auth' => $is_auth,
+    'end_time' => $end_time,
     'errors' => $errors_post
   ]);
 }

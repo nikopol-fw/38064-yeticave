@@ -1,16 +1,33 @@
 <?php
 
-function time_lot()
+function timeLot($end_date)
 {
-	$time_tommorow = strtotime('tomorrow');
-	$time_lot = $time_tommorow - time();
+	$time_lot = strtotime($end_date) - time();
 
-	$time_hours = floor($time_lot / 3600);
-	$time_minutes = floor(($time_lot % 3600) / 60);
+	$time_days = floor($time_lot / 86400);
+	$time_hours = floor(($time_lot % 86400) / 3600);
+	$time_minutes = floor((($time_lot % 86400) % 3600) / 60);
 
 	$get_time = $time_hours . ':' . $time_minutes;
 
-	return date('h:i', strtotime($get_time));
+	$word = 'дней';
+
+	$days = $time_days % 10;
+	$days_2 = $time_days % 100;
+
+	if ($days === 1) {
+		$word = 'день';
+	} else if ($days >= 2 && $days <= 4) {
+		$word = 'дня';
+	}
+
+	if ($days_2 >= 10 && $days_2 <= 14) {
+		$word = 'дней';
+	}
+
+	$date = date($time_days . html_entity_decode('&nbsp;') . $word . ' h:i ', strtotime($get_time));
+
+	return $date;
 }
 
 function format_price($price)
