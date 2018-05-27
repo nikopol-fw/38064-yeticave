@@ -4,25 +4,25 @@
   <?php $form_item = formatFormItem($errors['email'], $user['email']); ?>
   <div class="form__item<?= $form_item['classname']; ?>">
     <label for="email">E-mail*</label>
-    <input id="email" type="text" name="user[email]" placeholder="Введите e-mail" value="<?= $form_item['value']; ?>">
+    <input id="email" type="text" name="user[email]" placeholder="Введите e-mail" value="<?= $form_item['value']; ?>" required>
     <?= $form_item['error']; ?>
   </div>
   <?php $form_item = formatFormItem($errors['password'], $user['password']); ?>
   <div class="form__item<?= $form_item['classname']; ?>">
     <label for="password">Пароль*</label>
-    <input id="password" type="password" name="user[password]" placeholder="Введите пароль" >
+    <input id="password" type="password" name="user[password]" placeholder="Введите пароль" required>
     <?= $form_item['error']; ?>
   </div>
   <?php $form_item = formatFormItem($errors['name'], $user['name']); ?>
   <div class="form__item<?= $form_item['classname']; ?>">
     <label for="name">Имя*</label>
-    <input id="name" type="text" name="user[name]" placeholder="Введите имя" value="<?= $form_item['value']; ?>">
+    <input id="name" type="text" name="user[name]" placeholder="Введите имя" value="<?= $form_item['value']; ?>" required>
     <?= $form_item['error']; ?>
   </div>
   <?php $form_item = formatFormItem($errors['message'], $user['message']); ?>
   <div class="form__item<?= $form_item['classname']; ?>">
     <label for="message">Контактные данные*</label>
-    <textarea id="message" name="user[message]" placeholder="Напишите как с вами связаться" ><?= $form_item['value']; ?></textarea>
+    <textarea id="message" name="user[message]" placeholder="Напишите как с вами связаться" required><?= $form_item['value']; ?></textarea>
     <?= $form_item['error']; ?>
   </div>
   <?php $form_item = formatFormItem($errors['picture']); ?>
