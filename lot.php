@@ -81,59 +81,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   } else {
     $bet = intval($_POST['cost']);
 
-
     if (empty($bet)) {
       $errors_post['bet'] = 'Укажите вашу ставку';
-    }
+    } else {
 
-    $sql = "SELECT `lots`.`id`, IF(`bids`.`lot` IS NULL, `lots`.`start_price`, MAX(`bids`.`amount`)) AS `price`, `lots`.`bet_step` "
-        . "FROM `lots` "
-        . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
-        . "WHERE `lots`.`id` = '$lot_id' "
-        . "GROUP BY `lots`.`id`;";
+      $sql = "SELECT `lots`.`id`, IF(`bids`.`lot` IS NULL, `lots`.`start_price`, MAX(`bids`.`amount`)) AS `price`, `lots`.`bet_step` "
+          . "FROM `lots` "
+          . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
+          . "WHERE `lots`.`id` = '$lot_id' "
+          . "GROUP BY `lots`.`id`;";
+
+      $result = mysqli_query($db_conf, $sql);
+
+      if (!$result) {
+        $error = mysqli_error($db_conf);
+        $errors_post['bet'] = '<p>Ошибка MySQL: ' . $error . '</p>';
+      } else {
+        $lot_bet = mysqli_fetch_assoc($result);
+    
+        $sql = "SELECT COUNT(`bids`.`lot`) AS `bids_count` "
+            . "FROM `lots` "
+            . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
+            . "WHERE `lots`.`id` = '$lot_id';";
+
+        $result = mysqli_query($db_conf, $sql);
+
+        if (!$result) {
+          $error = mysqli_error($db_conf);
+          $errors_post['bet'] = '<p>Ошибка MySQL: ' . $error . '</p>';
+        } else {
+          $bids_count = intval(mysqli_fetch_assoc($result)['bids_count']);
+
+          $min_bet = ($bids_count > 0) ? (intval($lot_bet['price']) + intval($lot_bet['bet_step'])) : intval($lot_bet['price']);
+
+          if ($bet < $min_bet) {
+            $errors_post['bet'] = 'Минимально возможная ставка: ' . format_price__without_r($min_bet);
+          }
+        }
+      }
+    }
+  }
+
+  if (!count($errors_post)) {
+    $user_id = $_SESSION['user']['id'];
+    $lot_id = $lot_bet['id'];
+
+    $sql = "INSERT INTO `bids` (`date`, `amount`, `user`, `lot`) "
+        . "VALUES (NOW(), '$bet', '$user_id', '$lot_id');";
 
     $result = mysqli_query($db_conf, $sql);
 
     if (!$result) {
-      // $error = mysqli_error($db_conf);
-      // $page_content = '<p>Ошибка MySQL: ' . $error . '</p>';
-    } 
-
-
-    $lot_bet = mysqli_fetch_assoc($result);
-    
-
-    $sql = "SELECT COUNT(`bids`.`lot`) AS `bids_count` "
-        . "FROM `lots` "
-        . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
-        . "WHERE `lots`.`id` = '$lot_id';";
-
-    $result = mysqli_query($db_conf, $sql);
-
-    $bids_count = intval(mysqli_fetch_assoc($result)['bids_count']);
-
-
-    $min_bet = ($bids_count > 0) ? (intval($lot_bet['price']) + intval($lot_bet['bet_step'])) : intval($lot_bet['price']);
-
-
-    if ($bet < $min_bet) {
-      $errors_post['bet'] = 'Минимально возможная ставка: ' . format_price__without_r($min_bet);
-    }
-
-
-    $user_id = $_SESSION['user']['id'];
-    $lot_id = $lot_bet['id'];
-
-    if (!count($errors_post)) {
-      $sql = "INSERT INTO `bids` (`date`, `amount`, `user`, `lot`) "
-          . "VALUES (NOW(), '$bet', '$user_id', '$lot_id');";
-
-      $result = mysqli_query($db_conf, $sql);
+      $error = mysqli_error($db_conf);
+      $errors_post['bet'] = '<p>Ошибка MySQL: ' . $error . '</p>';
+    } else {
+      $current_url = $_SERVER['REQUEST_URI'];
+      header('Location: ' . $current_url);
     }
   }
 }
-
-
 
 
 $sql = "SELECT `lots`.`id`, `lots`.`name`, `lots`.`description`, `lots`.`picture`, `lots`.`end_date`, `lots`.`start_price`, IF(`bids`.`lot` IS NULL, `lots`.`start_price`, MAX(`bids`.`amount`)) AS `price`, `lots`.`bet_step`, `categories`.`name` AS `category_name` "
