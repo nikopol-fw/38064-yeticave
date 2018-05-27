@@ -9,7 +9,7 @@
       <p class="lot-item__description"><?= $lot['description']; ?></p>
     </div>
     <div class="lot-item__right">
-    <?php if ($is_auth): ?>
+    
       <div class="lot-item__state">
         <div class="lot-item__timer timer">
           <?= $end_time; ?>
@@ -23,6 +23,7 @@
             Мин. ставка <span><?= format_price(min_bet($bids_count, $lot['price'], $lot['bet_step'])); ?></span>
           </div>
         </div>
+        <?php if ($is_auth && !$lot_expired && !$is_author): ?>
         <form class="lot-item__form" action="" method="post">
           <?php $form_item = formatFormItem($errors['bet']); ?>
           <p class="lot-item__form-item<?= $form_item['classname']; ?>">
@@ -32,6 +33,7 @@
           </p>
           <button type="submit" class="button">Сделать ставку</button>
         </form>
+        <?php endif; ?>
       </div>
       <div class="history">
         <h3>История ставок (<span><?= $bids_count; ?></span>)</h3>
@@ -45,7 +47,6 @@
         <?php endforeach; ?>
         </table>
       </div>
-    <?php endif; ?>
     </div>
   </div>
 </section>

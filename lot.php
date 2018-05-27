@@ -20,6 +20,9 @@ $page_title = 'Лот';
 $categories = [];
 $errors_post = [];
 
+$lot_expired = true;
+$is_author = true;
+
 
 date_default_timezone_set('Europe/Moscow');
 
@@ -144,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
-$sql = "SELECT `lots`.`id`, `lots`.`name`, `lots`.`description`, `lots`.`picture`, `lots`.`end_date`, `lots`.`start_price`, IF(`bids`.`lot` IS NULL, `lots`.`start_price`, MAX(`bids`.`amount`)) AS `price`, `lots`.`bet_step`, `categories`.`name` AS `category_name` "
+$sql = "SELECT `lots`.`id`, `lots`.`name`, `lots`.`description`, `lots`.`picture`, `lots`.`end_date`, `lots`.`start_price`, IF(`bids`.`lot` IS NULL, `lots`.`start_price`, MAX(`bids`.`amount`)) AS `price`, `lots`.`bet_step`, `lots`.`author`, `categories`.`name` AS `category_name` "
     . "FROM `lots` "
     . "INNER JOIN `categories` ON `lots`.`category` = `categories`.`id` "
     . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
@@ -195,11 +198,21 @@ if (!$result) {
 
   $end_time = timeLot($lot['end_date']);
 
+  if (strtotime($lot['end_date']) > time()) {
+    $lot_expired = false;
+  }
+
+  if ($lot['author'] !== $_SESSION['user']['id']) {
+    $is_author = false;
+  }
+
   $page_content = renderTemplate('templates/lot_index.php', [
     'lot' => $lot,
     'bids' => $bids,
     'bids_count' => $bids_count,
     'is_auth' => $is_auth,
+    'lot_expired' => $lot_expired,
+    'is_author' => $is_author,
     'end_time' => $end_time,
     'errors' => $errors_post
   ]);
