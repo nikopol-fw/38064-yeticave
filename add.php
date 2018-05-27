@@ -139,8 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tmp_name = htmlspecialchars($_FILES['picture']['tmp_name']);
     $name = htmlspecialchars($_FILES['picture']['name']);
 
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $file_type = finfo_file($finfo, $tmp_name);
+    $file_type = mime_content_type($tmp_name);
 
     if (!($file_type == 'image/jpeg' || $file_type == 'image/png')) {
       $errors_post['picture'] = $errors_disc['picture_format'];
