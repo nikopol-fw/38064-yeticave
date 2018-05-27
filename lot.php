@@ -79,10 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (!$is_auth) {
     $errors_post['bet'] = 'Авторизуйтесь, чтобы делать ставки';
   } else {
-    $bet = intval($_POST['cost']);
+    $bet = $_POST['cost'];
 
     if (empty($bet)) {
       $errors_post['bet'] = 'Укажите вашу ставку';
+    } else if (!filter_var($bet, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
+      $errors_post['bet'] = 'Ставка должна быть целым числом больше 0';
     } else {
 
       $sql = "SELECT `lots`.`id`, IF(`bids`.`lot` IS NULL, `lots`.`start_price`, MAX(`bids`.`amount`)) AS `price`, `lots`.`bet_step` "
