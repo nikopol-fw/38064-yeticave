@@ -41,7 +41,7 @@
             <span class="lot__cost"><?= format_price($good['price']); ?></span>
           </div>
           <div class="lot__timer timer">
-            <?= time_lot(); ?>
+            <?= timeLot($good['end_date']); ?>
           </div>
         </div>
       </div>

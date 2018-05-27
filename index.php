@@ -55,7 +55,7 @@ if (!$result) {
 }
 
 
-$sql = "SELECT DISTINCT `lots`.`id`, `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name` AS `category_name`, `creation_date` "
+$sql = "SELECT DISTINCT `lots`.`id`, `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name` AS `category_name`, `creation_date`, `lots`.`end_date` "
     . "FROM `lots` "
     . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
     . "INNER JOIN `categories` ON `lots`.`category` = `categories`.`id` "
