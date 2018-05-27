@@ -198,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     mysqli_stmt_bind_param($stmt, 'sssss', $user['email'], $user['name'], $password_hash, $avatar, $user['message']);
 
     if (mysqli_stmt_execute($stmt)) {
-      header('Location: /');
+      header('Location: /login.php');
       exit(0);
     }
 

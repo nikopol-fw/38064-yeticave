@@ -1,8 +1,8 @@
 <?php $classname = count($errors) ? " form--invalid" : ""; ?>
-<form class="form container<?= $classname; ?>" action="sign-up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
+<form class="form container<?= $classname; ?>" action="sign-up.php" method="post" enctype="multipart/form-data">
   <h2>Регистрация нового аккаунта</h2>
   <?php $form_item = formatFormItem($errors['email'], $user['email']); ?>
-  <div class="form__item<?= $form_item['classname']; ?>"> <!-- form__item--invalid -->
+  <div class="form__item<?= $form_item['classname']; ?>">
     <label for="email">E-mail*</label>
     <input id="email" type="text" name="user[email]" placeholder="Введите e-mail" value="<?= $form_item['value']; ?>">
     <?= $form_item['error']; ?>
@@ -10,7 +10,7 @@
   <?php $form_item = formatFormItem($errors['password'], $user['password']); ?>
   <div class="form__item<?= $form_item['classname']; ?>">
     <label for="password">Пароль*</label>
-    <input id="password" type="text" name="user[password]" placeholder="Введите пароль" >
+    <input id="password" type="password" name="user[password]" placeholder="Введите пароль" >
     <?= $form_item['error']; ?>
   </div>
   <?php $form_item = formatFormItem($errors['name'], $user['name']); ?>
