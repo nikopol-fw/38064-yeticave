@@ -76,6 +76,9 @@ if (!$result) {
 }
 
 
+require_once 'get_winner.php';
+
+
 $layout_content = renderTemplate('templates/layout.php', [
   'page_title' => $page_title,
   'is_mainpage' => $is_mainpage,
