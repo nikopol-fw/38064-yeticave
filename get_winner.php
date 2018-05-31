@@ -1,21 +1,13 @@
 <?php
 
-$sql = "SELECT * FROM `lots` "
-		. "WHERE `lots`.`winner` IS NULL "
-		. "AND NOW() >= `lots`.`end_date`;";
+require_once 'vendor/autoload.php';
 
-$result = mysqli_query($db_conf, $sql);
-$lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$site_email = 'info@yeticave.ru';
 
-//echo "<pre>lots:";
-// var_dump($lots);
-// echo "</pre>";
+$transport = new Swift_SmtpTransport('localhost', 25);
+$mailer = new Swift_Mailer($transport);
 
 foreach ($lots as $key => $lot) {
-	// echo "<pre>lot:";
-	// var_dump($lot['id']);
-	// echo "</pre>";
-
 	$lot_id = $lot['id'];
 
 	$sql = "SELECT * "
@@ -27,25 +19,47 @@ foreach ($lots as $key => $lot) {
 			. "ON `bids`.`lot` = `lot_last`.`lot` AND `bids`.`date` = `lot_last`.`bids_last`;";
 
 	$result = mysqli_query($db_conf, $sql);
-	$bet = mysqli_fetch_assoc($result);
-	
-	$winner = $bet['user'];
 
-	// echo "<pre>bet:";
-	// var_dump($bet);
-	// echo "</pre>";
+	if (!$result) {
+		$errors['sendmail_sqlget_last_bet'] = mysqli_error($db_conf);
+	}
+	
+	$bet = mysqli_fetch_assoc($result);
+	$winner = $bet['user'];
 
 	$sql = "UPDATE `lots` "
 			. "SET `lots`.`winner` = '$winner' "
 			. "WHERE `lots`.`id` = '$lot_id';";
 
-	// echo "<pre>bet:";
-	// var_dump($sql);
-	// echo "</pre>";
+	$result = mysqli_query($db_conf, $sql);
+
+	if (!$result) {
+		$errors['sendmail_sqlset_lot_winner'] = mysqli_error($db_conf);
+	}
+
+
+	$sql = "SELECT `users`.`email`, `users`.`name` "
+			. "FROM `users` "
+			. "WHERE `users`.`id` = '$winner';";
 
 	$result = mysqli_query($db_conf, $sql);
 
-// Отправка e-mail
-	
-	
+	if (!$result) {
+		$errors['sendmail_sqlget_winner_data'] = mysqli_error($db_conf);
+	}
+
+	$winner_data = mysqli_fetch_assoc($result);
+	$winner_email = $winner_data['email'];
+	$winner_name = $winner_data['name'];
+
+	$message = new Swift_Message('Победа на аукционе YetiCave');
+	$message->setFrom([$site_email => 'YetiCave']);
+	$message->setTo([$winner_email => $winner_name]);
+	$message->setBody('Поздравляем, вы выиграли лот, id: ' . $lot_id);
+
+	try {
+		$mailer->send($message);
+	} catch (\Swift_TransportException $e) {
+		$errors['swiftmailer_send'] = $e->getMessage();
+	}
 }

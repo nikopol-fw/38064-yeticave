@@ -76,7 +76,19 @@ if (!$result) {
 }
 
 
-require_once 'get_winner.php';
+$sql = "SELECT * FROM `lots` "
+    . "WHERE `lots`.`winner` IS NULL "
+    . "AND NOW() >= `lots`.`end_date`;";
+
+$result = mysqli_query($db_conf, $sql);
+
+if (!$result) {
+  $errors['sendmail_sqlget_lots_nowinner'] = mysqli_error($db_conf);
+} else {
+  $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+  require_once 'get_winner.php';
+}
 
 
 $layout_content = renderTemplate('templates/layout.php', [
