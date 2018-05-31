@@ -5,13 +5,14 @@ require_once 'db_config.php';
 
 session_start();
 
-$is_mainpage = true;
+$is_mainpage = false;
 $is_auth = false;
 $user_name = '';
 $user_avatar = '';
 
-$page_title = 'YetiCave';
+$page_title = 'Все лоты';
 $categories = [];
+$errors = [];
 
 if (isset($_SESSION['user'])) {
   $is_auth = true;
@@ -54,42 +55,46 @@ if (!$result) {
   $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
+if (!isset($_GET['category'])) {
+	$sql = "SELECT `lots`.`id`, `lots`.`name`, `categories`.`name` AS `category_name`, `lots`.`picture`, `lots`.`end_date`, `bids_count`.`count`, "
+			. "IF (`bids`.`lot` IS NULL, `lots`.`start_price`, MAX(`bids`.`amount`)) AS `price` "
+			. "FROM `lots` "
+			. "INNER JOIN `categories` "
+			. "ON `categories`.`id` = `lots`.`category` "
+			. "LEFT JOIN (SELECT COUNT(`bids`.`lot`) AS `count`, `bids`.`lot` "
+				. "FROM `bids` "
+				. "INNER JOIN `lots` ON `bids`.`lot` = `lots`.`id` "
+				. "WHERE `bids`.`lot` = `lots`.`id` "
+				. "GROUP BY `bids`.`lot`) AS `bids_count` "
+			. "ON `lots`.`id` = `bids_count`.`lot` "
+			. "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
+			. "WHERE `lots`.`end_date` > NOW() "
+			. "GROUP BY `lots`.`id`;";
+ 
+	$result = mysqli_query($db_conf, $sql); 
+	$lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$sql = "SELECT DISTINCT `lots`.`id`, `lots`.`name`, `start_price`, `picture`, MAX(IF(`amount` IS NULL, `start_price`, `amount`)) AS `price`, COUNT(`lot`) AS `bids_number`, `categories`.`name` AS `category_name`, `creation_date`, `lots`.`end_date` "
-    . "FROM `lots` "
-    . "LEFT JOIN `bids` ON `lots`.`id` = `bids`.`lot` "
-    . "INNER JOIN `categories` ON `lots`.`category` = `categories`.`id` "
-    . "WHERE CURRENT_TIMESTAMP() < `end_date` "
-    . "GROUP BY `lots`.`id`, `lots`.`name`, `start_price`, `picture`, `creation_date`, `category` "
-    . "ORDER BY `creation_date` DESC;";
+	foreach ($lots as $key => $lot) {
+		if (!empty($lot['count'])) {
+			$lots[$key]['count'] = $lot['count'] . ' ' . formatWordBids(intval($lot['count']));
+		} else {
+			$lots[$key]['count'] = 'Стартовая цена';
+		}
 
-$result = mysqli_query($db_conf, $sql);
+		$lots[$key]['time_left'] = timeLot($lot['end_date']);
+	}
 
-if (!$result) {
-  $error = mysqli_error($db_conf);
-  $page_content = '<p>Ошибка MySQL: ' . $error . '</p>';
+
+
 } else {
-  $goods = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  $page_content = renderTemplate('templates/index.php', [
-    'goods' => $goods
-  ]);
+	$category_get = $_GET['category'];
 }
 
 
-$sql = "SELECT * FROM `lots` "
-    . "WHERE `lots`.`winner` IS NULL "
-    . "AND NOW() >= `lots`.`end_date`;";
+$lot_id = intval($_GET['id']);
 
-$result = mysqli_query($db_conf, $sql);
 
-if (!$result) {
-  $errors['sendmail_sqlget_lots_nowinner'] = mysqli_error($db_conf);
-} else {
-  $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-  require_once 'getwinner.php';
-}
-
+$page_content = renderTemplate('templates/all-lots.php', ['lots' => $lots]);
 
 $layout_content = renderTemplate('templates/layout.php', [
   'page_title' => $page_title,

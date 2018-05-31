@@ -5,34 +5,33 @@
  * @copyright 2018 Wikipedia
  * @return string $date отформатированная строка указывающая количество дней, часов и минут
  */
-function timeLot($end_date)
+function timeLot(string $end_date)
 {
+	$date = '';
 	$time_lot = strtotime($end_date) - time();
 
-	$time_days = floor($time_lot / 86400);
-	$time_hours = floor(($time_lot % 86400) / 3600);
-	$time_minutes = floor((($time_lot % 86400) % 3600) / 60);
+	if ($time_lot <= 0) {
+		$date = date('H:i:s', strtotime('00:00:00'));
+	} else {
+		$time_days = floor($time_lot / 86400);
+		$time_hours = floor(($time_lot % 86400) / 3600);
+		$time_minutes = floor((($time_lot % 86400) % 3600) / 60);
+		$time_seconds = floor((($time_lot % 86400) % 3600) % 60);
 
-	$get_time = $time_hours . ':' . $time_minutes;
+		$get_time = $time_hours . ':' . $time_minutes . ':' . $time_seconds;
 
-	$word = 'дней';
+		$word = formatWordDays(intval($time_days));
 
-	$days = $time_days % 10;
-	$days_2 = $time_days % 100;
-
-	if ($days === 1) {
-		$word = 'день';
-	} else if ($days >= 2 && $days <= 4) {
-		$word = 'дня';
+		$date = date($time_days . html_entity_decode('&nbsp;') . $word . ' H:i:s', strtotime($get_time));
 	}
-
-	if ($days_2 >= 10 && $days_2 <= 14) {
-		$word = 'дней';
-	}
-
-	$date = date($time_days . html_entity_decode('&nbsp;') . $word . ' h:i ', strtotime($get_time));
 
 	return $date;
+}
+
+function timeFinishing() {
+	
+	
+	return;
 }
 
 /**
@@ -51,6 +50,18 @@ function format_price($price)
   }
 
   $price_formatted = $price_formatted . ' <b class="rub">р</b>';
+
+  return $price_formatted;
+}
+
+function formatPrice (string $price)
+{
+	$price = htmlspecialchars($price);
+	$price_formatted = ceil($price);
+
+  if ($price_formatted > 999) {
+  	$price_formatted = number_format($price_formatted, 0, '', ' ');
+  }
 
   return $price_formatted;
 }
@@ -101,7 +112,7 @@ function min_bet($bids_count, $price, $bet_step)
  * @copyright 2018 Wikipedia
  * @return string $content html-код шаблона
  */
-function renderTemplate($templatePath, $templateData)
+function renderTemplate(string $templatePath, array $templateData = [])
 {
 	$content = '';
 	extract($templateData);
@@ -143,4 +154,45 @@ function formatFormItem ($error, $value = null)
 	}
 
 	return $format;
+}
+
+
+function formatWordBids (int $bids_count)
+{
+	$word = 'ставок';
+
+	$bids = $bids_count % 10;
+	$bids_2 = $bids_count % 100;
+
+	if ($bids === 1) {
+		$word = 'ставка';
+	} else if ($bids >= 2 && $bids <= 4) {
+		$word = 'ставки';
+	}
+
+	if ($bids_2 >= 10 && $bids_2 <= 14) {
+		$word = 'ставок';
+	}
+
+	return $word;
+}
+
+function formatWordDays (int $days_count)
+{
+	$word = 'дней';
+
+	$days = $days_count % 10;
+	$days_2 = $days_count % 100;
+
+	if ($days === 1) {
+		$word = 'день';
+	} else if ($days >= 2 && $days <= 4) {
+		$word = 'дня';
+	}
+
+	if ($days_2 >= 10 && $days_2 <= 14) {
+		$word = 'дней';
+	}
+
+	return $word;
 }

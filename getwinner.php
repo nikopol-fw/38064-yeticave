@@ -2,9 +2,11 @@
 
 require_once 'vendor/autoload.php';
 
-$site_email = 'info@yeticave.ru';
+$site_email = 'keks@phpdemo.ru';
 
-$transport = new Swift_SmtpTransport('localhost', 25);
+$transport = new Swift_SmtpTransport('phpdemo.ru', 25);
+$transport->setUsername('keks@phpdemo.ru');
+$transport->setPassword('htmlacademy');
 $mailer = new Swift_Mailer($transport);
 
 foreach ($lots as $key => $lot) {
@@ -31,7 +33,7 @@ foreach ($lots as $key => $lot) {
 			. "SET `lots`.`winner` = '$winner' "
 			. "WHERE `lots`.`id` = '$lot_id';";
 
-	$result = mysqli_query($db_conf, $sql);
+	//$result = mysqli_query($db_conf, $sql);
 
 	if (!$result) {
 		$errors['sendmail_sqlset_lot_winner'] = mysqli_error($db_conf);
@@ -52,10 +54,18 @@ foreach ($lots as $key => $lot) {
 	$winner_email = $winner_data['email'];
 	$winner_name = $winner_data['name'];
 
-	$message = new Swift_Message('Победа на аукционе YetiCave');
+	$message = new Swift_Message('Ваша ставка победила');
 	$message->setFrom([$site_email => 'YetiCave']);
 	$message->setTo([$winner_email => $winner_name]);
-	$message->setBody('Поздравляем, вы выиграли лот, id: ' . $lot_id);
+	$message->setContentType('text/html');
+
+	$meesage_body = renderTemplate('templates/email.php', [
+		'user_name' => $winner_data['email'],
+		'lot_id' => $lot_id
+
+	]);
+
+	$message->setBody($meesage_body);
 
 	try {
 		$mailer->send($message);
