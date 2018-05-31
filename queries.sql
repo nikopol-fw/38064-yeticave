@@ -1,3 +1,5 @@
+USE `yeti_cave`;
+
 INSERT INTO `categories` (`name`)
 VALUES ('Доски и лыжи');
 
