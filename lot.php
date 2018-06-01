@@ -66,7 +66,7 @@ if (!isset($_GET['id'])) {
 
 $lot_id = intval($_GET['id']);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (!$is_auth) {
     $errors_post['bet'] = 'Авторизуйтесь, чтобы делать ставки';
