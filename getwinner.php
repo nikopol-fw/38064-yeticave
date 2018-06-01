@@ -33,7 +33,7 @@ foreach ($lots as $key => $lot) {
 			. "SET `lots`.`winner` = '$winner' "
 			. "WHERE `lots`.`id` = '$lot_id';";
 
-	//$result = mysqli_query($db_conf, $sql);
+	$result = mysqli_query($db_conf, $sql);
 
 	if (!$result) {
 		$errors['sendmail_sqlset_lot_winner'] = mysqli_error($db_conf);
@@ -74,9 +74,6 @@ foreach ($lots as $key => $lot) {
 			'lot_id' => $lot_id,
 			'lot_name' => $lot_name
 		]);
-
-		
-		var_dump($meesage_body);
 
 		$message->setBody($meesage_body);
 
