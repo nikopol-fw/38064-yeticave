@@ -205,3 +205,21 @@ function formatWordDays(int $days_count)
 
 	return $word;
 }
+
+function getCategories(object $db_conf)
+{
+	$sql = "SELECT `categories`.`id`, `categories`.`name` "
+    . "FROM `categories` "
+    . "ORDER BY `categories`.`id` ASC";
+
+  $result = mysqli_query($db_conf, $sql);
+
+  if (!$result) {
+  	$error = mysqli_error($db_conf);
+  	$categories['errors']['name'] = '<p>Ошибка MySQL: ' . $error . '</p>';
+	} else {
+  	$categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+	}
+
+  return $categories;
+}
