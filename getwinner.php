@@ -25,7 +25,7 @@ foreach ($lots as $key => $lot) {
 	if (!$result) {
 		$errors['sendmail_sqlget_last_bet'] = mysqli_error($db_conf);
 	}
-	
+
 	$bet = mysqli_fetch_assoc($result);
 	$winner = $bet['user'];
 

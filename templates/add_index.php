@@ -41,8 +41,8 @@
   <?php $classname = "";
   $error = "";
   if (isset($errors['description'])):
-     $classname = " form__item--invalid";
-     $error = "<span class=\"form__error\">" . $errors['description'] . "</span>";
+    $classname = " form__item--invalid";
+    $error = "<span class=\"form__error\">" . $errors['description'] . "</span>";
   endif;
   $value = isset($lot['description']) ? htmlspecialchars($lot['description']) : ""; ?>
   <div class="form__item form__item--wide<?= $classname; ?>">

@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'categories' => $categories,
                 'content' => $page_content
               ]);
-              
+
               print($layout_content);
               exit(1);
             }
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors_post[$field] = $errors_disc['password_short'];
           }
           break;
-        
+
         default:
           break;
       }
@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_bind_param($stmt, 'sssss', $user['email'], $user['name'], $password_hash, $avatar, $user['message']);
 
     if (mysqli_stmt_execute($stmt)) {
-      header('Location: /login.php');
+      header('Location: ./login.php');
       exit(0);
     }
 

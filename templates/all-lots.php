@@ -1,7 +1,7 @@
 <div class="container">
   <section class="lots">
     <h2>Все лоты<?php
-    if ($category_name): ?> в категории <span>«<?= $category_name; ?>»</span>
+    if (isset($category_name)): ?> в категории <span>«<?= $category_name; ?>»</span>
     <?php endif; ?></h2>
     <?php if ($no_lots): ?>
     <p>Лотов в данной категории на данный момент <b>нет</b></p>

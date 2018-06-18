@@ -45,7 +45,7 @@ function timeFinishing(string $end_date)
 	if ($time_lot < 3600) {
 		$check = true;
 	}
-	
+
 	return $check;
 }
 
@@ -110,37 +110,6 @@ function renderTemplate(string $templatePath, array $templateData = [])
 	}
 
 	return $content;
-}
-
-/**
- * Функция формирует массив с названием класса,
- * html-кодом для вывода ошибки и значением
- * для элементов форм
- * @param string $error текст ошибки
- * @param string $value значение поля формы
- *
- * @return array $format массив с данным для подстановки в шаблон элемента формы
- */
-function formatFormItem($error, $value = '')
-{
-	$value = htmlspecialchars($value);
-
-	$format = [
-		'classname' => '',
-		'error' => '',
-		'value' => ''
-	];
-
-	if (isset($error)) {
-		$format['classname'] = ' form__item--invalid';
-		$format['error'] = '<span class="form__error">' . $error . '</span>';
-	}
-
-	if (isset($value)) {
-		$format['value'] = $value;
-	}
-
-	return $format;
 }
 
 /**

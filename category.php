@@ -58,9 +58,11 @@ if (empty($_GET['category'])) {
 
 	$pages_count = (int) ceil($items_count / $lots_pagination);
 
-	if ($_GET['page'] && (((int) $_GET['page'] > 0) && ((int) $_GET['page'] <= $pages_count))) {
-		$cur_page = (int) $_GET['page'];
-	}
+  if (isset($_GET['page'])) {
+    if (((int) $_GET['page'] > 0) && ((int) $_GET['page'] <= $pages_count)) {
+  		$cur_page = (int) $_GET['page'];
+    }
+  }
 
 	$offset = ($cur_page - 1) * $lots_pagination;
 	$pages = range(1, $pages_count);
@@ -81,7 +83,7 @@ if (empty($_GET['category'])) {
 			. "GROUP BY `lots`.`id` "
 			. "ORDER BY `lots`.`id` ASC "
 			. "LIMIT $lots_pagination OFFSET $offset;";
- 
+
 	$result = mysqli_query($db_conf, $sql);
 	$lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -134,7 +136,7 @@ if (empty($_GET['category'])) {
 	} else {
 		$sql = "SELECT COUNT(*) AS `count` FROM `lots` "
 				. "WHERE `lots`.`end_date` > NOW() AND `lots`.`category` = '$category';";
-		
+
 		$result = mysqli_query($db_conf, $sql);
 		$items_count = (int) mysqli_fetch_assoc($result)['count'];
 
@@ -143,9 +145,11 @@ if (empty($_GET['category'])) {
 			$pages_count = (int) ceil($items_count / $lots_pagination);
 		}
 
-		if ($_GET['page'] && (((int) $_GET['page'] > 0) && ((int) $_GET['page'] <= $pages_count))) {
-			$cur_page = (int) $_GET['page'];
-		}
+    if (isset($_GET['page'])) {
+      if (((int) $_GET['page'] > 0) && ((int) $_GET['page'] <= $pages_count)) {
+        $cur_page = (int) $_GET['page'];
+      }
+    }
 
 		$offset = ($cur_page - 1) * $lots_pagination;
 

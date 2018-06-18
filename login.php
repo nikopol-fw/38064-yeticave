@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (password_verify($login['password'], $user['password']) and $user) {
       $_SESSION['user'] = $user;
-      header('Location: /');
+      header('Location: ./');
       exit(0);
     } else {
       $errors_post['password'] = 'Пара E-mail-Пароль неверна';
@@ -123,7 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 } else {
   $page_content = renderTemplate('templates/login_index.php', [
-    'errors' => $errors_post
+    'errors' => $errors_post,
+    'is_auth' => $is_auth
   ]);
 }
 

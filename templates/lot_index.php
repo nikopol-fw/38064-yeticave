@@ -9,7 +9,7 @@
       <p class="lot-item__description"><?= $lot['description']; ?></p>
     </div>
     <div class="lot-item__right">
-    
+
       <div class="lot-item__state">
         <div class="lot-item__timer timer">
           <?= $end_time; ?>
@@ -25,11 +25,19 @@
         </div>
         <?php if ($is_auth && !$lot_expired && !$is_author): ?>
         <form class="lot-item__form" action="" method="post">
-          <?php $form_item = formatFormItem($errors['bet']); ?>
-          <p class="lot-item__form-item<?= $form_item['classname']; ?>">
+        <?php
+          $classname = '';
+          $error = '';
+
+          if (isset($errors['bet'])):
+            $classname = ' form__item--invalid';
+            $error = '<span class="form__error">' . $errors['bet'] . '</span>';
+          endif;
+        ?>
+          <p class="lot-item__form-item<?= $classname; ?>">
             <label for="cost">Ваша ставка</label>
-            <input id="cost" type="number" name="cost" placeholder="<?= formatPrice(minBet($bids_count, $lot['price'], $lot['bet_step'])); ?>" value="<?= $form_item['value']; ?>">
-            <?= $form_item['error']; ?>
+            <input id="cost" type="number" name="cost" placeholder="<?= formatPrice(minBet($bids_count, $lot['price'], $lot['bet_step'])); ?>">
+            <?= $error; ?>
           </p>
           <button type="submit" class="button">Сделать ставку</button>
         </form>

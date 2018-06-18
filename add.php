@@ -26,6 +26,7 @@ if (isset($_SESSION['user'])) {
   $layout_content = renderTemplate('templates/layout.php', [
     'page_title' => $page_title,
     'is_mainpage' => $is_mainpage,
+    'is_auth' => $is_auth,
     'categories' => $categories,
     'content' => $page_content
   ]);
@@ -87,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors_post[$field] = $errors_disc['price_negative'];
           }
           break;
-        
+
         case 'bet_step':
           if (!filter_var($lot[$field], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
             $errors_post[$field] = $errors_disc['price_negative'];
@@ -159,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           . "VALUES (?, ?, ?, NOW(), ?, ?, ?, '$author_id', ?);";
 
       $stmt = mysqli_prepare($db_conf, $sql);
-      mysqli_stmt_bind_param($stmt, 'ssssiii', htmlspecialchars($lot['title']), htmlspecialchars($lot['description']), $uniq_name, htmlspecialchars($lot['end_date']), htmlspecialchars($lot['start_price']), htmlspecialchars($lot['bet_step']), htmlspecialchars($lot['category']));
+      mysqli_stmt_bind_param($stmt, 'ssssiii', $lot['title'], $lot['description'], $uniq_name, $lot['end_date'], $lot['start_price'], $lot['bet_step'], $lot['category']);
       $result = mysqli_stmt_execute($stmt);
 
       if (!$result) {
@@ -176,7 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 } else {
   $page_content = renderTemplate('templates/add_index.php', [
-    'lot' => $lot,
     'errors' => $errors_post,
     'categories' => $categories
   ]);
