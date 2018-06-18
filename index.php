@@ -50,7 +50,7 @@ $sql = "SELECT DISTINCT `lots`.`id`, `lots`.`name`, `start_price`, `picture`, MA
     . "INNER JOIN `categories` ON `lots`.`category` = `categories`.`id` "
     . "WHERE CURRENT_TIMESTAMP() < `end_date` "
     . "GROUP BY `lots`.`id`, `lots`.`name`, `start_price`, `picture`, `creation_date`, `category` "
-    . "ORDER BY `creation_date` DESC;";
+    . "ORDER BY `creation_date` DESC LIMIT 6;";
 
 $result = mysqli_query($db_conf, $sql);
 
@@ -59,6 +59,15 @@ if (!$result) {
   $page_content = '<p>Ошибка MySQL: ' . $error . '</p>';
 } else {
   $goods = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+  foreach ($goods as $key => $good) {
+    if (!empty($good['bids_number'])) {
+      $goods[$key]['bids_number'] = $good['bids_number'] . ' ' . formatWordBids((int) $good['bids_number']);
+    } else {
+      $goods[$key]['bids_number'] = 'Стартовая цена';
+    }
+  }
+
   $page_content = renderTemplate('templates/index.php', [
     'categories' => $categories,
     'goods' => $goods
