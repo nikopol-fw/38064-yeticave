@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (count($errors_post)) {
     $page_content = renderTemplate('templates/login_index.php', [
       'errors' => $errors_post,
+      'is_auth' => $is_auth,
       'user' => $login
     ]);
   } else {
@@ -117,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $errors_post['password'] = 'Пара E-mail-Пароль неверна';
       $page_content = renderTemplate('templates/login_index.php', [
         'errors' => $errors_post,
+        'is_auth' => $is_auth,
         'user' => $login
       ]);
     }
